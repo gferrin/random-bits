@@ -1,0 +1,22 @@
+{
+  "name": "newzcard-getty",
+  "version": "0.0.0",
+  "description": "module for polling getty server",
+  "main": "app.js",
+  "scripts": {
+    "test": "NODE_ENV=development node process_image.js",
+    "start": "NODE_ENV=staging node process_image.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/newzcard/newzcard-getty.git"
+  },
+  "author": "",
+  "license": "",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "colors": "~0.6.2",
+    "coffee-script": "~1.7.0",
+    "gm": "^1.14.2"
+  }
+}
