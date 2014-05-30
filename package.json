@@ -1,15 +1,14 @@
 {
-  "name": "newzcard-getty",
+  "name": "image-scrambler",
   "version": "0.0.0",
-  "description": "module for polling getty server",
+  "description": "randomely rearrange images",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=development node process_image.js",
-    "start": "NODE_ENV=staging node process_image.js"
+    "start": "coffee mixer.coffee"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/newzcard/newzcard-getty.git"
+    "url": "https://github.com/gferrin/image-scrambler.git"
   },
   "author": "",
   "license": "",
