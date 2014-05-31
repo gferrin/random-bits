@@ -1,5 +1,9 @@
+readline = require 'readline'
 spawn = require('child_process').spawn
 gm = require('gm').subClass({ imageMagick: true }) 
+
+input_file = process.argv[2]
+output_file = process.argv[3]
 
 find_square_size_possibilities = (width, height) ->
 
@@ -49,9 +53,35 @@ find_num_squares = (possibilities, width, height) ->
 
 	return squares
 
-pick_one = (squares) ->
+pick_one = (squares, cb) ->
 
-	return squares[squares.length - 1]
+	rl = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout
+	})
+
+	question = "\nWhich square size would you prefer?\nWarning: The more squares the longer this will take. (It takes anywhere from 30sec to 30min)\n\n"
+	options = []
+	index = 0
+	for squ in squares
+		question += (++index) + ". square width: " + squ['square_pixels'] + ' px. total squares: ' + squ['total'] + '\n'
+		options.push index
+
+	console.log options
+	question += '\nEnter the number corresponding to your choice: ' 
+
+	rl.question question, (answer)  => 
+		if (parseFloat(answer)) in options
+			rl.close()
+			console.log "\n\n\n"
+			cb(null, squares[(answer - 1)])
+		else 
+			console.log "Bad answer, please try again."
+			rl.close()
+			pick_one(squares, cb)
+
+	# return squares[0]
+	# return squares[squares.length - 1]
 
 shuffle = (array) ->
 	currentIndex = array.length
@@ -120,48 +150,51 @@ make_squares = (square, index, w, h, file_names, cb) ->
 				cb(null, file_names)
 	)
 
+if input_file?
+	picture = input_file 
+else 
+	picture = './wortzel.jpg'
 
-picture = './wortzel.jpg'
+folder = __dirname + '/workspace/'
+mkdir = spawn('mkdir', [folder])
 
 gm(picture).size (err, size) =>
 
 	width = size['width']
 	height = size['height']
 
-	console.log width
-	console.log height
-
 	possibilities = find_square_size_possibilities(width, height)
 	squares = find_num_squares(possibilities, width, height)
 
-	square = pick_one(squares)
-	console.log square
+	square = pick_one(squares, (err, square) =>
+		console.log "in pick_one cb"
+		console.log square
 
-	square_pixels = square['square_pixels']
+		square_pixels = square['square_pixels']
 
-	width_offset = 0
-	height_offset = 0
-	index = 0
+		width_offset = 0
+		height_offset = 0
+		index = 0
 
-	make_squares(square, 1, 0, 0, [], (err, file_names) =>
-		if err?
-			console.log err
-		else 
-			n = 'one'
-			create_image(n, square, f, 0, [], (err, res) =>
-				if err?
-					console.log err
-				else 
-					console.log "woop"
-					console.log res
-			)
-			# for name in ['one', 'two', 'three', 'four']
-				
-			# 	file_names = shuffle(file_names)
-			# 	console.log file_names[0]
-			# 	((n, f) =>
+		make_squares(square, 1, 0, 0, [], (err, file_names) =>
+			if err?
+				console.log err
+			else 
+				if not output_file?
+					output_file = (new Date()).getTime()
 
-			# 	)(name, file_names)
+				file_names = shuffle(file_names)
+				create_image(output_file, square, file_names, 0, [], (err, res) =>
+					if err?
+						console.log err
+					else 
+						folder = __dirname + '/workspace/'
+						rm = spawn('rm', ['-rf', folder])
+						# rm = spawn('ls', [folder, '|', 'xargs', 'rm', '-rf', folder], {cwd: process.env.PWD})
+						console.log "Done!"
+						console.log res
+				)
+		)
 	)
 
 
