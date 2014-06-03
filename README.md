@@ -1,7 +1,7 @@
 Random Bits
 ===============
 
-A project for [Adrianne Wortzel](http://www.adriannewortzel.com/).
+A project in collaboration with [Adrianne Wortzel](http://www.adriannewortzel.com/).
 
 Takes an image like this:
 
