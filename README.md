@@ -1,6 +1,8 @@
 Random Bits
 ===============
 
+A project for [Adrianne Wortzel](http://www.adriannewortzel.com/).
+
 Takes an image like this:
 
 ![original](https://raw.githubusercontent.com/gferrin/image-scrambler/master/wortzel.jpg)
