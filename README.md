@@ -1,4 +1,4 @@
-image-scrambler
+Random Bits
 ===============
 
 Takes an image like this:
