@@ -9,7 +9,7 @@ and then makes it look like this:
 
 ![final](https://raw.githubusercontent.com/gferrin/image-scrambler/master/final/one.jpg)
 
-To run install [imagemagick](http://www.imagemagick.org/) which if your using homebrew would look like this
+To run, first install [imagemagick](http://www.imagemagick.org/), which if your using homebrew would look like this
 
 `brew install imagemagick`
 
